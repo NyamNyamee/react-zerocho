@@ -11,22 +11,53 @@
     <div id="root"></div>
     </div>
     <script type="text/babel">
-        class LikeButton extends React.Component {  // 컴포넌트
-            constructor(props) {  // 생성자 (데이터)
-                super(props);
+        // 함수형 컴포넌트 (React Hooks)
+        const GuGuDan = () => {
+            // state지정 방법: [state, setState] = React.useState(초기화할 값)
+            const [first, setFirst] = React.useState(Math.ceil(Math.random() * 20));
+            const [second, setSecond] = React.useState(Math.ceil(Math.random() * 20));
+            const [input, setInput] = React.useState('');
+            const [result, setResult] = React.useState('');
+            
+            // ref지정 방법: React.useRef(초기값) 지정 후 실제 태그에서 ref속성 지정
+            const refInput = React.useRef(null);
 
-                this.state = {
-                    liked: false
+            const submitHandler = (e) => {
+                e.preventDefault();  // form태그의 기본속성인 action 이벤트 방지
+                if (parseInt(input) === first * second) {  // 정답일 때
+                    setFirst(Math.ceil(Math.random() * 20));
+                    setSecond(Math.ceil(Math.random() * 20));
+                    setInput('');
+                    setResult(`${first}x${second}=${input} 정답입니다!`);
+                } else {  // 오답일 때
+                    setInput('');
+                    setResult(`${input}는 오답입니다 :(`);
                 }
+
+                refInput.current.focus();  // 끝나면 ref걸어놓은 인풋태그에 포커스 (중간에 current주의)
             }
 
-            render() {  // 렌더링(화면)
-                return <button onClick={() => { this.setState({ liked: !this.state.liked }) }}>Like</button>
-            }
+            const changeHandler = (e) => {
+                setInput(e.target.value);
+            };
+
+            return (
+                <React.Fragment>
+                    <div>{first} 곱하기 {second} 는?</div>
+                    <form onSubmit={submitHandler}>
+                        <input type="number" value={input} onChange={changeHandler} ref={refInput}/>
+                        <button type="submit">확인</button>
+                    </form>
+                    <div>
+                        {result}
+                    </div>
+                    <br />
+                </React.Fragment>
+            );
         }
     </script>
     <script type="text/babel">
-        ReactDOM.render(<LikeButton />, document.querySelector('#root'));  // 실제로 DOM요소를 찾아 컴포넌트를 붙임
+        ReactDOM.render(<React.Fragment><GuGuDan /><GuGuDan /></React.Fragment>, document.querySelector('#root'));  // 실제로 DOM요소를 찾아 컴포넌트를 붙임
     </script>
 </body>
 

@@ -1,0 +1,77 @@
+<html>
+
+<head>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+    </div>
+    <script type="text/babel">
+        class GuGuDan extends React.Component {  // 컴포넌트
+            state = {
+                first: Math.ceil(Math.random() * 20),
+                second: Math.ceil(Math.random() * 20),
+                input: '',
+                result: '',
+            };
+
+            // 클래스 내부에서 생성한 함수는 function으로하면 this를 bind해줘야 하기 때문에 화살표함수를 쓰는게 좋다
+            submitHandler = (e) => {
+                e.preventDefault();
+                if (parseInt(this.state.input) === this.state.first * this.state.second) {  // 정답일 때
+                    this.setState({
+                        first: Math.ceil(Math.random() * 20),
+                        second: Math.ceil(Math.random() * 20),
+                        input: '',
+                        result: `${this.state.first}x${this.state.second} = ${this.state.input} 정답입니다`,
+                    });
+                } else {  // 오답일 때
+                    this.setState({
+                        input: '',
+                        result: `${this.state.first}x${this.state.second} != ${this.state.input} 오답입니다`,
+                    });
+                }
+                this.input.focus();  // 끝나면 인풋태그에 포커스
+            }
+
+            // 클래스 내부에서 생성한 함수는 function으로하면 this를 bind해줘야 하기 때문에 화살표함수를 쓰는게 좋다
+            changeHandler = function (e) {
+                this.setState({ input: e.target.value });
+            }.bind(this);
+
+            setRefInput = (c) => {
+                this.input = c;
+            }
+
+            render() {  // 렌더링(화면)
+                return (
+                    <React.Fragment>
+                        <div>
+                            [20단]
+                        </div>
+                        <div>
+                            {this.state.first} 곱하기 {this.state.second}는?
+                        </div>
+                        <form onSubmit={this.submitHandler}>
+                            <input type="number" value={this.state.input} onChange={this.changeHandler} ref={this.setRefInput} />
+                            <button type="submit">입력</button>
+                        </form>
+                        <div>
+                            {this.state.result}
+                        </div>
+                        <br />
+                    </React.Fragment>
+                );
+            }
+        }
+    </script>
+    <script type="text/babel">
+        ReactDOM.render(<React.Fragment><GuGuDan /><GuGuDan /></React.Fragment>, document.querySelector('#root'));  // 실제로 DOM요소를 찾아 컴포넌트를 붙임
+    </script>
+</body>
+
+</html>
