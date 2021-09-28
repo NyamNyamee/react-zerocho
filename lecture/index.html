@@ -1,64 +1,12 @@
 <html>
 
 <head>
-    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
 </head>
 
 <body>
-
     <div id="root"></div>
-    </div>
-    <script type="text/babel">
-        // 함수형 컴포넌트 (React Hooks)
-        const GuGuDan = () => {
-            // state지정 방법: [state, setState] = React.useState(초기화할 값)
-            const [first, setFirst] = React.useState(Math.ceil(Math.random() * 20));
-            const [second, setSecond] = React.useState(Math.ceil(Math.random() * 20));
-            const [input, setInput] = React.useState('');
-            const [result, setResult] = React.useState('');
-            
-            // ref지정 방법: React.useRef(초기값) 지정 후 실제 태그에서 ref속성 지정
-            const refInput = React.useRef(null);
-
-            const submitHandler = (e) => {
-                e.preventDefault();  // form태그의 기본속성인 action 이벤트 방지
-                if (parseInt(input) === first * second) {  // 정답일 때
-                    setFirst(Math.ceil(Math.random() * 20));
-                    setSecond(Math.ceil(Math.random() * 20));
-                    setInput('');
-                    setResult(`${first}x${second}=${input} 정답입니다!`);
-                } else {  // 오답일 때
-                    setInput('');
-                    setResult(`${input}는 오답입니다 :(`);
-                }
-
-                refInput.current.focus();  // 끝나면 ref걸어놓은 인풋태그에 포커스 (중간에 current주의)
-            }
-
-            const changeHandler = (e) => {
-                setInput(e.target.value);
-            };
-
-            return (
-                <React.Fragment>
-                    <div>{first} 곱하기 {second} 는?</div>
-                    <form onSubmit={submitHandler}>
-                        <input type="number" value={input} onChange={changeHandler} ref={refInput}/>
-                        <button type="submit">확인</button>
-                    </form>
-                    <div>
-                        {result}
-                    </div>
-                    <br />
-                </React.Fragment>
-            );
-        }
-    </script>
-    <script type="text/babel">
-        ReactDOM.render(<React.Fragment><GuGuDan /><GuGuDan /></React.Fragment>, document.querySelector('#root'));  // 실제로 DOM요소를 찾아 컴포넌트를 붙임
-    </script>
+    <script src="./dist/app.js"></script>
 </body>
 
 </html>
