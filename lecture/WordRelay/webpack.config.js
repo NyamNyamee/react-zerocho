@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const WebpackRefresh = require('@pmmmwh/react-refresh-webpack-plugin');  // 핫리로드 플러그인
 
 module.exports = {
-    name: 'gugudan-setting',  // 이름은 마음대로. 없어도됨
+    name: 'wordRelay-setting',  // 이름은 마음대로. 없어도됨
     // mode: 'production', 상용
     mode: 'development',  // 개발
     // devtool: 'hidden-source-map',  // 상용
