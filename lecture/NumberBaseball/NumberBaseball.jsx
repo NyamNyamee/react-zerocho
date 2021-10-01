@@ -1,5 +1,6 @@
 const React = require('react');
 const { useState, useRef } = React;
+const History = require('./History');
 
 function getNumbers() {  // 숫자 네개를 겹치지 않게 뽑는 함수(문제용 숫자)
     return Math.ceil(Math.random() * 9999);
@@ -11,7 +12,7 @@ const NumberBaseball = () => {
     const [number, setNumber] = useState(getNumbers());
     const [input, setInput] = useState('');
     const [result, setResult] = useState('');
-    const [histories, setHistories] = useState([1234, 2345, 7777]);
+    const [histories, setHistories] = useState([{ history: 1234, result: '1s2b' }, { history: 7813, result: '2b' }, { history: 5473, result: '3s1b' }, { history: 1682, result: '3b' }]);
 
     // ref지정 방법: React.useRef(초기값) 지정 후 실제 태그에서 ref속성 지정
     const refInput = useRef(null);
@@ -38,17 +39,17 @@ const NumberBaseball = () => {
                 {result}
             </div>
             <div>
-                남은기회: {histories.length}
+                남은기회: {10 - histories.length}
             </div>
-            <ul>
-                {  
-                    histories.map((history) => {  // 리액트 배열 반복문. 배열.forEach((컴포넌트) => {}) 과 동일
-                        return (
-                            <li>{history}</li>
-                        );
-                    })
+            <ol>
+                {
+                    histories.map((history, index) => (  // 리액트 배열 반복문. 배열.forEach((컴포넌트, 인덱스) => {}) 과 동일
+                        <History key={history.history + history.result} history={history} index={index} />
+                    )
+                    )
                 }
-            </ul>
+            </ol>
+
             <br />
         </>
     );
