@@ -2,7 +2,7 @@
 // const { useState, useRef } = React;
 // const History = require('./History');
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, memo } from 'react';
 import History from './History';
 
 
@@ -51,7 +51,7 @@ const NumberBaseball = () => {
             let strike = 0;
             let ball = 0;
             if (histories.length >= 9) {  // 10번 이상 실패
-                alert(`기회가 없습니다. 정답은 ${number.join('')} 입니다!`);
+                alert(`아쉽구만요 정답은 ${number.join('')} 입니다!`);
                 setInput('');
                 setNumber(getNumbers());
                 setHistories([]);
@@ -67,6 +67,7 @@ const NumberBaseball = () => {
                     return [...prevHistories, { history: input, result: `${strike}S ${ball}B` }];
                 });
                 setInput('');
+                setResult('');
             }
         }
 

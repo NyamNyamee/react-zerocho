@@ -1,0 +1,20 @@
+#screen {
+    width: 300px;
+    height: 300px;
+    text-align: center;
+    color: white;
+    user-select: none;
+    border-radius: 20%;
+} 
+
+#screen.ready {
+    background-color: maroon;
+}
+
+#screen.set {
+    background-color: orange;
+}
+
+#screen.go {
+    background-color: green;
+}
