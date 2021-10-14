@@ -5,13 +5,13 @@ import React, { useState, useRef, memo } from 'react';
 // let endTime = null;
 
 const ReactionCheck = () => {  // 컴포넌트
-    // state
+    // state : setState로 값 변경 시 자동으로 화면이 다시 렌더링됨
     const [status, setStatus] = useState('ready');
     const [message, setMessage] = useState('클릭해서 준비');
     const [result, setResult] = useState([]);
     // ref (dom 접근)
     const screenRef = useRef(null);
-    // ref (변수 선언) : state와 다르게 ref는 값을 바꿔도 다시 렌더링되지 않음
+    // ref (변수로 활용) : state와 다르게 ref는 값을 바꿔도 다시 렌더링되지 않음
     const timeout = useRef(null);  
     const startTime = useRef(null);
     const endTime = useRef(null);
