@@ -1,9 +1,9 @@
-import React, { useCallback, useContext, memo } from 'react';
+import React, { useCallback, useContext, memo, useMemo } from 'react';
 import { TableContext, CODE, OPEN_CELL, CLICK_MINE, SET_CELL_QUESTION, SET_CELL_FLAG, SET_CELL_NORMAL } from './MineSearch';
 
 const Td = memo(({ rowIndex, colIndex }) => {
     // TableContext 사용
-    const { tableData, dispatch } = useContext(TableContext);
+    const { tableData, halted, dispatch } = useContext(TableContext);
 
     // td스타일
     const getTdStyle = (code) => {
@@ -55,24 +55,27 @@ const Td = memo(({ rowIndex, colIndex }) => {
             case CODE.OPENED:
                 return '';
             case CODE.MINE:
-                return 'X';
+                return '';
             case CODE.MINE_CLICKED:
                 return '⁕';
             case CODE.QUESTION:
                 return '?';
             case CODE.QUESTION_MINE:
-                return '?⁕';
+                return '?';
             case CODE.FLAG:
                 return '!';
             case CODE.FLAG_MINE:
-                return '!⁕';
+                return '!';
             default:
-                return '';
+                return code;
         }
     }
 
     // td클릭 시
     const onClickCell = useCallback(() => {
+        if (halted) { // 겜 종료시
+            return;
+        }
         switch (tableData[rowIndex][colIndex]) {
             // 클릭해도 그대로
             case CODE.OPENED:
@@ -98,11 +101,14 @@ const Td = memo(({ rowIndex, colIndex }) => {
                 });
                 break;
         }
-    }, [tableData[rowIndex][colIndex]]);
+    }, [tableData[rowIndex][colIndex], halted]);
 
     // td우클릭 시
     const onRightClickCell = useCallback((e) => {
         e.preventDefault();  // 브라우저 기본 우클릭 메뉴 방지
+        if (halted) { // 겜 종료시
+            return;
+        }
         switch (tableData[rowIndex][colIndex]) {
             // 일반, 지뢰일 때
             case CODE.NORMAL:
@@ -132,8 +138,8 @@ const Td = memo(({ rowIndex, colIndex }) => {
                 });
                 break;
         }
-    }, [tableData[rowIndex][colIndex]]);
-
+    }, [tableData[rowIndex][colIndex], halted]);
+    // useMemo(() =>   , [tableData[rowIndex][colIndex]])
     return (
         <td
             style={getTdStyle(tableData[rowIndex][colIndex])}
